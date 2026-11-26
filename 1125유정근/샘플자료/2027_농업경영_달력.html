@@ -1,0 +1,3919 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2027년 농업경영 달력 - 지역별 파종 및 영농 가이드</title>
+<style>
+  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+  :root {
+    --primary: #2d6a4f;
+    --primary-light: #52b788;
+    --primary-dark: #1b4332;
+    --accent: #d97706;
+    --text-dark: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #f1f5f9;
+    color: var(--text-dark);
+    line-height: 1.5;
+  }
+  .no-print {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: #fffffffa;
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  }
+  .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: none;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-primary { background: var(--primary); color: white; }
+  .btn-primary:hover { background: var(--primary-dark); }
+  .btn-outline { background: white; border: 1px solid var(--border); color: var(--text-dark); }
+  .btn-outline:hover { background: #f8fafc; }
+  .tab-btn {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: white;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    transition: all 0.15s;
+  }
+  .tab-btn:hover { background: #f8fafc; }
+  .tab-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+  }
+
+  .container {
+    max-width: 1240px;
+    margin: 24px auto;
+    padding: 0 20px;
+  }
+
+  /* Cover Card */
+  .cover-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    margin-bottom: 30px;
+    border: 1px solid var(--border);
+  }
+  .cover-banner {
+    position: relative;
+    height: 320px;
+    background-image: url('images/autumn.jpg');
+    background-size: cover;
+    background-position: center 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 40px;
+    color: white;
+  }
+  .cover-banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 60%, transparent 100%);
+  }
+  .cover-title { position: relative; z-index: 1; }
+  .cover-badge {
+    display: inline-block;
+    background: #d97706;
+    color: white;
+    font-size: 12px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+  }
+  .cover-title h1 { font-size: 36px; font-weight: 900; margin-bottom: 8px; letter-spacing: -0.5px; }
+  .cover-title p { font-size: 17px; opacity: 0.95; font-weight: 500; }
+  .cover-grid {
+    padding: 24px 32px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    background: #ffffff;
+  }
+  .season-preview {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: #f8fafc;
+  }
+  .season-preview img { width: 100%; height: 100px; object-fit: cover; display: block; }
+  .season-preview-info { padding: 10px 12px; }
+  .season-preview-title { font-weight: 700; font-size: 14px; margin-bottom: 2px; }
+  .season-preview-desc { font-size: 11px; color: var(--text-muted); }
+
+  /* Month Sheet */
+  .month-sheet {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    margin-bottom: 40px;
+    border: 1px solid var(--border);
+  }
+
+  .month-header {
+    position: relative;
+    height: 220px;
+    background-size: cover;
+    background-position: center;
+    color: white;
+    display: flex;
+    align-items: flex-end;
+    padding: 24px 32px;
+  }
+  .month-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%);
+  }
+  .month-header-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: flex-end;
+  }
+  .month-num-title {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .month-num-title .big-num {
+    font-size: 56px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -1px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  }
+  .month-num-title .eng-sub {
+    font-size: 22px;
+    font-weight: 700;
+    opacity: 0.95;
+    text-transform: uppercase;
+  }
+  .month-season-badge {
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.4);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 700;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+
+  .month-body {
+    padding: 28px 32px;
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    gap: 28px;
+  }
+
+  /* Calendar Grid */
+  .cal-container {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 16px;
+    border: 1px solid var(--border);
+    margin-bottom: 20px;
+  }
+  .cal-header-row {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-weight: 800;
+    font-size: 13px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border);
+    margin-bottom: 6px;
+  }
+  .cal-header-row div:first-child { color: #dc2626; }
+  .cal-header-row div:last-child { color: #2563eb; }
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+  }
+  .cal-cell {
+    min-height: 52px;
+    background: white;
+    border: 1px solid #edf2f7;
+    border-radius: 6px;
+    padding: 4px 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  .cal-cell.empty { background: transparent; border-color: transparent; }
+  .cal-cell.sunday .day-num { color: #dc2626; }
+  .cal-cell.saturday .day-num { color: #2563eb; }
+  .cal-cell.holiday { background: #fef2f2; border-color: #fecaca; }
+  .cal-cell.holiday .day-num { color: #dc2626; font-weight: 800; }
+  .day-top { display: flex; justify-content: space-between; align-items: baseline; }
+  .day-num { font-size: 14px; font-weight: 700; }
+  .day-tag {
+    font-size: 9px;
+    color: #047857;
+    background: #ecfdf5;
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-weight: 700;
+    margin-top: 2px;
+    line-height: 1.2;
+    text-align: center;
+  }
+  .day-tag.holiday-tag {
+    color: #b91c1c;
+    background: #fee2e2;
+  }
+
+  /* Cards */
+  .card-box {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 18px;
+  }
+  .card-box.core { border-left: 5px solid var(--primary); background: #fcfdfc; }
+  .card-box.region { border-left: 5px solid #2563eb; }
+  .card-box.exotic { border-left: 5px solid #d97706; background: #fffdfa; }
+  
+  .card-title {
+    font-size: 15px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .card-title.core { color: var(--primary); }
+  .card-title.region { color: #1d4ed8; }
+  .card-title.exotic { color: #b45309; }
+
+  .checklist { list-style: none; }
+  .checklist li {
+    font-size: 13px;
+    margin-bottom: 8px;
+    position: relative;
+    padding-left: 20px;
+    color: #334155;
+    line-height: 1.45;
+  }
+  .checklist li::before {
+    content: '✔';
+    position: absolute;
+    left: 0;
+    color: var(--primary);
+    font-weight: 900;
+    font-size: 12px;
+  }
+
+  .region-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  .region-table th, .region-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #e2e8f0;
+    text-align: left;
+    vertical-align: top;
+  }
+  .region-table tr:last-child th, .region-table tr:last-child td { border-bottom: none; }
+  .region-table th { background: #f8fafc; font-weight: 700; width: 22%; color: #334155; white-space: nowrap; }
+  .region-table td { color: #1e293b; line-height: 1.4; }
+
+  .badge-tag {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-right: 6px;
+  }
+  .badge-root { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+  .badge-exotic { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+
+  .exotic-item {
+    padding: 10px 0;
+    border-bottom: 1px dashed #f1f5f9;
+  }
+  .exotic-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .exotic-header { display: flex; align-items: center; margin-bottom: 4px; }
+  .exotic-name { font-weight: 700; font-size: 13px; color: #1e293b; }
+  .exotic-desc { font-size: 12px; color: #475569; line-height: 1.4; }
+
+  /* Footer */
+  .footer-card {
+    background: white;
+    border-radius: 16px;
+    padding: 28px 32px;
+    border: 1px solid var(--border);
+    margin-bottom: 40px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+
+  @media print {
+    body { background: white; color: black; }
+    .no-print { display: none !important; }
+    .container { max-width: 100%; margin: 0; padding: 0; }
+    .cover-card { page-break-after: always; box-shadow: none; border-radius: 0; border: none; margin: 0; }
+    .cover-banner { height: 260px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .month-sheet {
+      page-break-after: always;
+      box-shadow: none;
+      border: 1px solid #ddd;
+      margin-bottom: 0;
+      border-radius: 0;
+      break-inside: avoid;
+    }
+    .month-header {
+      height: 140px;
+      padding: 16px 24px;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .month-num-title .big-num { font-size: 40px; }
+    .month-body { padding: 16px 20px; gap: 16px; }
+    .cal-cell { min-height: 44px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="no-print">
+  <div>
+    <strong style="font-size: 16px; color: var(--primary-dark);">🌾 2027년 농업경영 달력</strong>
+    <span style="font-size: 13px; color: var(--text-muted); margin-left: 12px;">농업인을 위한 월별 파종 & 영농 종합지침서</span>
+  </div>
+  <div class="btn-group">
+    <button class="btn btn-primary" onclick="window.print()">🖨️ 달력 전체 인쇄 (A4용)</button>
+    <button class="btn btn-outline" onclick="showAllMonths()">전체 12개월 보기</button>
+  </div>
+</div>
+
+<div class="container">
+  <!-- Month Tab Selector (No Print) -->
+  <div class="no-print" style="margin-bottom: 24px; background: white; padding: 14px 18px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+    <div style="font-size: 13px; font-weight: 700; margin-bottom: 10px; color: #475569;">월별 바로가기:</div>
+    <div class="btn-group" id="monthTabs">
+      <button class="tab-btn active" onclick="filterMonth(0)">전체 12개월</button>
+      <button class="tab-btn" onclick="filterMonth(1)">1월</button>
+      <button class="tab-btn" onclick="filterMonth(2)">2월</button>
+      <button class="tab-btn" onclick="filterMonth(3)">3월</button>
+      <button class="tab-btn" onclick="filterMonth(4)">4월</button>
+      <button class="tab-btn" onclick="filterMonth(5)">5월</button>
+      <button class="tab-btn" onclick="filterMonth(6)">6월</button>
+      <button class="tab-btn" onclick="filterMonth(7)">7월</button>
+      <button class="tab-btn" onclick="filterMonth(8)">8월</button>
+      <button class="tab-btn" onclick="filterMonth(9)">9월</button>
+      <button class="tab-btn" onclick="filterMonth(10)">10월</button>
+      <button class="tab-btn" onclick="filterMonth(11)">11월</button>
+      <button class="tab-btn" onclick="filterMonth(12)">12월</button>
+    </div>
+  </div>
+
+  <!-- Cover Page Card -->
+  <div class="cover-card" id="coverCard">
+    <div class="cover-banner">
+      <div class="cover-title">
+        <span class="cover-badge">2027 AGRICULTURAL MANAGEMENT CALENDAR</span>
+        <h1>2027년 농업경영 달력</h1>
+        <p>한국 5대 권역별 최적 파종시기 · 외래 도입 고소득 채소 · 기능성 뿌리작물 영농 종합 가이드</p>
+      </div>
+    </div>
+    <div class="cover-grid">
+      <div class="season-preview">
+        <img src="images/spring.jpg" alt="봄">
+        <div class="season-preview-info">
+          <div class="season-preview-title">🌸 봄 (3~5월)</div>
+          <div class="season-preview-desc">만물소생 & 파종·정식 최성기</div>
+        </div>
+      </div>
+      <div class="season-preview">
+        <img src="images/summer.jpg" alt="여름">
+        <div class="season-preview-info">
+          <div class="season-preview-title">☀️ 여름 (6~8월)</div>
+          <div class="season-preview-desc">하지감자 수확 & 김장채소 파종</div>
+        </div>
+      </div>
+      <div class="season-preview">
+        <img src="images/autumn.jpg" alt="가을">
+        <div class="season-preview-info">
+          <div class="season-preview-title">🍁 가을 (9~11월)</div>
+          <div class="season-preview-desc">황금들녘 수확 & 마늘·양파 정식</div>
+        </div>
+      </div>
+      <div class="season-preview">
+        <img src="images/winter.jpg" alt="겨울">
+        <div class="season-preview-info">
+          <div class="season-preview-title">❄️ 겨울 (12~2월)</div>
+          <div class="season-preview-desc">경영결산 & 시설온실 육묘준비</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Month 1 Sheet -->
+  <div class="month-sheet" id="monthSheet1" data-month="1">
+    <div class="month-header" style="background-image: url('images/winter.jpg');">
+      <div class="month-header-content">
+        <div class="month-num-title">
+          <span class="big-num">1월</span>
+          <span class="eng-sub">JANUARY 2027</span>
+        </div>
+        <div class="month-season-badge">겨울 (휴농기 & 영농계획)</div>
+      </div>
+    </div>
+    <div class="month-body">
+      <!-- Left: Calendar Grid + Core Tasks -->
+      <div>
+        <div class="cal-container">
+          <div class="cal-header-row">
+            <div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div>
+          </div>
+          <div class="cal-grid">
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell holiday">
+              <div class="day-top">
+                <span class="day-num">1</span>
+              </div>
+              <span class="day-tag holiday-tag">신정</span>
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">2</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">3</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">4</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">5</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">6</span>
+              </div>
+              <span class="day-tag">소한</span>
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">7</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">8</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">9</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">10</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">11</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">12</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">13</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">14</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">15</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">16</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">17</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">18</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">19</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">20</span>
+              </div>
+              <span class="day-tag">대한</span>
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">21</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">22</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">23</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">24</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">25</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">26</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">27</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">28</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">29</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">30</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">31</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+          </div>
+        </div>
+
+        <!-- Core farming checklist -->
+        <div class="card-box core">
+          <div class="card-title core">
+            <span>🌾 이달의 핵심 농작업 & 경영 체크포인트</span>
+          </div>
+          <ul class="checklist">
+            <li>2027년 영농 경영계획 수립 및 작목별 수익성 분석</li>
+            <li>보급종 종자(벼, 콩, 옥수수) 및 씨감자·씨고구마 신청 확보</li>
+            <li>시설하우스 보온·다겹보온커튼 점검 및 난방기 화재 예방</li>
+            <li>농기계 동파 방지(부동액 주입, 배터리 분리 보관)</li>
+            <li>농경지 토양검정 의뢰(시군 농업기술센터 무료 검정)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Right: Regional Sowing + Exotic/Root crops -->
+      <div class="info-panel">
+        <div class="card-box region">
+          <div class="card-title region">
+            <span>🗺️ 전국 5대 권역별 파종 & 정식 작물표</span>
+          </div>
+          <table class="region-table">
+            <tr>
+              <th>북부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(강원·경기북부)</span></th>
+              <td>휴농기, 농기계 점검, 퇴비 확보</td>
+            </tr>
+            <tr>
+              <th>중부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(수도권·충청)</span></th>
+              <td>시설하우스 상추·시금치 보온 관리, 씨감자 신청</td>
+            </tr>
+            <tr>
+              <th>남부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(영·호남)</span></th>
+              <td>시설 고추·토마토 육묘상 준비(하순), 촉성 딸기 수확</td>
+            </tr>
+            <tr>
+              <th>해안권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(서·남해안)</span></th>
+              <td>해풍 방풍림 정비, 마늘·양파 포장 배수로 점검</td>
+            </tr>
+            <tr>
+              <th>제주권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(제주도 전역)</span></th>
+              <td>봄 양배추·브로콜리 육묘(상순), 봄감자 조기파종(하순), 월동무 출하</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="card-box exotic">
+          <div class="card-title exotic">
+            <span>🥔 외래 도입 채소 & 기능성 뿌리작물 FOCUS</span>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-root">뿌리</span>
+              <span class="exotic-name">감자/고구마 종자 관리</span>
+            </div>
+            <div class="exotic-desc">씨감자 저장온도 3~4°C, 고구마 12~15°C 적정 온습도 유지</div>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-exotic">외래</span>
+              <span class="exotic-name">유럽형 샐러드채소</span>
+            </div>
+            <div class="exotic-desc">루콜라, 비트잎 등 시설 하우스 내 저온성 엽채류 재배</div>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-root">뿌리</span>
+              <span class="exotic-name">생강/강황 종강 보관</span>
+            </div>
+            <div class="exotic-desc">종강 저장고 13~15°C 보온 및 환기 상태 점검</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Month 2 Sheet -->
+  <div class="month-sheet" id="monthSheet2" data-month="2">
+    <div class="month-header" style="background-image: url('images/winter.jpg');">
+      <div class="month-header-content">
+        <div class="month-num-title">
+          <span class="big-num">2월</span>
+          <span class="eng-sub">FEBRUARY 2027</span>
+        </div>
+        <div class="month-season-badge">늦겨울 (새봄 준비 & 육묘 시작)</div>
+      </div>
+    </div>
+    <div class="month-body">
+      <!-- Left: Calendar Grid + Core Tasks -->
+      <div>
+        <div class="cal-container">
+          <div class="cal-header-row">
+            <div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div>
+          </div>
+          <div class="cal-grid">
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">1</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">2</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">3</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">4</span>
+              </div>
+              <span class="day-tag">입춘</span>
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">5</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday holiday">
+              <div class="day-top">
+                <span class="day-num">6</span>
+              </div>
+              <span class="day-tag holiday-tag">설날</span>
+            </div>
+            <div class="cal-cell sunday holiday">
+              <div class="day-top">
+                <span class="day-num">7</span>
+              </div>
+              <span class="day-tag holiday-tag">설연휴</span>
+            </div>
+            <div class="cal-cell holiday">
+              <div class="day-top">
+                <span class="day-num">8</span>
+              </div>
+              <span class="day-tag holiday-tag">설연휴</span>
+            </div>
+            <div class="cal-cell holiday">
+              <div class="day-top">
+                <span class="day-num">9</span>
+              </div>
+              <span class="day-tag holiday-tag">대체공휴일</span>
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">10</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">11</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">12</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">13</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">14</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">15</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">16</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">17</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">18</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">19</span>
+              </div>
+              <span class="day-tag">우수</span>
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">20</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">21</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">22</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">23</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">24</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">25</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">26</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">27</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">28</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+          </div>
+        </div>
+
+        <!-- Core farming checklist -->
+        <div class="card-box core">
+          <div class="card-title core">
+            <span>🌾 이달의 핵심 농작업 & 경영 체크포인트</span>
+          </div>
+          <ul class="checklist">
+            <li>과수원 정지·전정(가지치기) 및 조기 기계유유제 살포</li>
+            <li>고추, 토마토, 가지 등 주요 과채류 온실 육묘 파종</li>
+            <li>씨감자 산광최아(그늘 싹틔우기) 20~25일간 실시</li>
+            <li>퇴비(부숙유기질비료) 및 석회 살포 준비 (파종 1개월 전)</li>
+            <li>농업경영체 등록정보 변경 및 직불금 사전 확인</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Right: Regional Sowing + Exotic/Root crops -->
+      <div class="info-panel">
+        <div class="card-box region">
+          <div class="card-title region">
+            <span>🗺️ 전국 5대 권역별 파종 & 정식 작물표</span>
+          </div>
+          <table class="region-table">
+            <tr>
+              <th>북부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(강원·경기북부)</span></th>
+              <td>온실 상토 소독, 농자재(비닐, 파이프) 조달</td>
+            </tr>
+            <tr>
+              <th>중부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(수도권·충청)</span></th>
+              <td>고추·토마토 온실 육묘(상순), 오이·가지(중순), 양배추(하순)</td>
+            </tr>
+            <tr>
+              <th>남부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(영·호남)</span></th>
+              <td>수박·참외 육묘(상순), 봄배추 육묘(중순), 감자 직파(하순)</td>
+            </tr>
+            <tr>
+              <th>해안권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(서·남해안)</span></th>
+              <td>조기 봄감자 직파(하순), 완두 직파</td>
+            </tr>
+            <tr>
+              <th>제주권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(제주도 전역)</span></th>
+              <td>봄감자 본밭 직파(상순), 비트·콜라비 직파(중순), 하우스 만감류 출하</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="card-box exotic">
+          <div class="card-title exotic">
+            <span>🥔 외래 도입 채소 & 기능성 뿌리작물 FOCUS</span>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-root">뿌리</span>
+              <span class="exotic-name">봄 감자 (수미/대서)</span>
+            </div>
+            <div class="exotic-desc">씨감자 눈따기 절단 후 상처치유(큐어링) 실시, 남부 파종</div>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-exotic">외래</span>
+              <span class="exotic-name">파프리카/주키니</span>
+            </div>
+            <div class="exotic-desc">온실 파프리카 육묘상 관리, 주키니호박 트레이 파종</div>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-exotic">외래</span>
+              <span class="exotic-name">셀러리/차이브</span>
+            </div>
+            <div class="exotic-desc">유럽식 서늘한 채소 2월 중순 온실 파종 육묘 시작</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Month 3 Sheet -->
+  <div class="month-sheet" id="monthSheet3" data-month="3">
+    <div class="month-header" style="background-image: url('images/spring.jpg');">
+      <div class="month-header-content">
+        <div class="month-num-title">
+          <span class="big-num">3월</span>
+          <span class="eng-sub">MARCH 2027</span>
+        </div>
+        <div class="month-season-badge">봄 (만물 소생 & 본밭 파종 개시)</div>
+      </div>
+    </div>
+    <div class="month-body">
+      <!-- Left: Calendar Grid + Core Tasks -->
+      <div>
+        <div class="cal-container">
+          <div class="cal-header-row">
+            <div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div>
+          </div>
+          <div class="cal-grid">
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell holiday">
+              <div class="day-top">
+                <span class="day-num">1</span>
+              </div>
+              <span class="day-tag holiday-tag">삼일절</span>
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">2</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">3</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">4</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">5</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">6</span>
+              </div>
+              <span class="day-tag">경칩</span>
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">7</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">8</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">9</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">10</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">11</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">12</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">13</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">14</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">15</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">16</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">17</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">18</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">19</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">20</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">21</span>
+              </div>
+              <span class="day-tag">춘분</span>
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">22</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">23</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">24</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">25</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">26</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">27</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">28</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">29</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">30</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">31</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+          </div>
+        </div>
+
+        <!-- Core farming checklist -->
+        <div class="card-box core">
+          <div class="card-title core">
+            <span>🌾 이달의 핵심 농작업 & 경영 체크포인트</span>
+          </div>
+          <ul class="checklist">
+            <li>본밭 밑거름 시용(완숙퇴비 10a당 1,500kg) 및 30cm 깊이갈이</li>
+            <li>봄감자 본밭 정식 (이랑 70cm, 포기 25~30cm, 깊이 10~15cm)</li>
+            <li>마늘·양파 생육재생기 웃거름(1차 추비) 시용 및 배수로 정비</li>
+            <li>봄 가뭄 대비 점적호스 및 관수시설 정비</li>
+            <li>고추 육묘상 환기 및 물주기 조절(도장 방지, 입고병 예방)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Right: Regional Sowing + Exotic/Root crops -->
+      <div class="info-panel">
+        <div class="card-box region">
+          <div class="card-title region">
+            <span>🗺️ 전국 5대 권역별 파종 & 정식 작물표</span>
+          </div>
+          <table class="region-table">
+            <tr>
+              <th>북부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(강원·경기북부)</span></th>
+              <td>해동 후 토양 경운, 시금치 노지 직파(하순)</td>
+            </tr>
+            <tr>
+              <th>중부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(수도권·충청)</span></th>
+              <td>감자 직파(상순), 시금치·상추·쑥갓(중순), 당근·열무·완두(하순)</td>
+            </tr>
+            <tr>
+              <th>남부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(영·호남)</span></th>
+              <td>감자 정식(상순), 봄배추 정식(중순), 당근·상추·쑥갓(하순)</td>
+            </tr>
+            <tr>
+              <th>해안권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(서·남해안)</span></th>
+              <td>시금치·상추 직파(상순), 갓·열무(중순), 양파 웃거름</td>
+            </tr>
+            <tr>
+              <th>제주권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(제주도 전역)</span></th>
+              <td>당근·열무·쑥갓 직파(전체), 봄감자 싹 출현기 북주기</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="card-box exotic">
+          <div class="card-title exotic">
+            <span>🥔 외래 도입 채소 & 기능성 뿌리작물 FOCUS</span>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-root">뿌리</span>
+              <span class="exotic-name">돼지감자 (뚱딴지)</span>
+            </div>
+            <div class="exotic-desc">이눌린 풍부 당뇨작물, 덩이줄기 50g 절단 후 직파</div>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-root">뿌리</span>
+              <span class="exotic-name">비트 / 파스닙</span>
+            </div>
+            <div class="exotic-desc">지중해 비트, 유럽 설탕당근 파스닙 노지 직파 적기</div>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-exotic">외래</span>
+              <span class="exotic-name">루콜라 / 딜 / 처빌</span>
+            </div>
+            <div class="exotic-desc">서늘한 기후 선호하는 유럽 허브 노지 직파 (발아율 최고)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Month 4 Sheet -->
+  <div class="month-sheet" id="monthSheet4" data-month="4">
+    <div class="month-header" style="background-image: url('images/spring.jpg');">
+      <div class="month-header-content">
+        <div class="month-num-title">
+          <span class="big-num">4월</span>
+          <span class="eng-sub">APRIL 2027</span>
+        </div>
+        <div class="month-season-badge">봄 (화사한 봄날 & 파종 최성기)</div>
+      </div>
+    </div>
+    <div class="month-body">
+      <!-- Left: Calendar Grid + Core Tasks -->
+      <div>
+        <div class="cal-container">
+          <div class="cal-header-row">
+            <div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div>
+          </div>
+          <div class="cal-grid">
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">1</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">2</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">3</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">4</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">5</span>
+              </div>
+              <span class="day-tag">청명</span>
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">6</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">7</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">8</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">9</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">10</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">11</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">12</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">13</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">14</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">15</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">16</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">17</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">18</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">19</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">20</span>
+              </div>
+              <span class="day-tag">곡우</span>
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">21</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">22</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">23</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">24</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">25</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">26</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">27</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">28</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">29</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">30</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell empty"></div>
+          </div>
+        </div>
+
+        <!-- Core farming checklist -->
+        <div class="card-box core">
+          <div class="card-title core">
+            <span>🌾 이달의 핵심 농작업 & 경영 체크포인트</span>
+          </div>
+          <ul class="checklist">
+            <li>볍씨 온탕소독(60°C 10분) 및 볍씨 파종, 못자리 설치</li>
+            <li>노지 고추 밭이랑 만들기 및 흑색 비닐멀칭 (지온 상승)</li>
+            <li>과수 개화기 늦서리 피해 예방 (방상팬, 미세살수, 연소법)</li>
+            <li>옥수수, 호박, 참깨, 땅콩, 봄배추 정식 및 직파</li>
+            <li>봄철 농작업 안전사고(예초기, 트랙터 경운 작업) 예방</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Right: Regional Sowing + Exotic/Root crops -->
+      <div class="info-panel">
+        <div class="card-box region">
+          <div class="card-title region">
+            <span>🗺️ 전국 5대 권역별 파종 & 정식 작물표</span>
+          </div>
+          <table class="region-table">
+            <tr>
+              <th>북부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(강원·경기북부)</span></th>
+              <td>감자 직파(상순), 상추·쑥갓(중순), 봄배추 정식(하순)</td>
+            </tr>
+            <tr>
+              <th>중부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(수도권·충청)</span></th>
+              <td>봄배추 정식(상순), 옥수수·호박 직파(중순), 콩·땅콩 직파(하순)</td>
+            </tr>
+            <tr>
+              <th>남부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(영·호남)</span></th>
+              <td>수박·참외 정식(상순), 고추·토마토 정식(중순), 콩·옥수수 직파(하순)</td>
+            </tr>
+            <tr>
+              <th>해안권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(서·남해안)</span></th>
+              <td>감자 생육 관리, 콩·옥수수 직파(중순), 고추 육묘</td>
+            </tr>
+            <tr>
+              <th>제주권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(제주도 전역)</span></th>
+              <td>콩·옥수수·참깨 직파, 하우스 아열대 과수 개화 관리</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="card-box exotic">
+          <div class="card-title exotic">
+            <span>🥔 외래 도입 채소 & 기능성 뿌리작물 FOCUS</span>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-root">뿌리</span>
+              <span class="exotic-name">당근 (황금5촌/베타리치)</span>
+            </div>
+            <div class="exotic-desc">이식 절대 금지, 흑색멀칭 구멍 직파 후 2~3회 솎음</div>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-exotic">외래</span>
+              <span class="exotic-name">퀴노아 (남미 안데스)</span>
+            </div>
+            <div class="exotic-desc">슈퍼푸드 퀴노아, 서늘한 4월 중하순 고랭지/북부 파종</div>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-exotic">외래</span>
+              <span class="exotic-name">주키니호박 / 아마란스</span>
+            </div>
+            <div class="exotic-desc">성장 빠른 이탈리아 호박 정식, 단백질 곡물 아마란스 파종</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Month 5 Sheet -->
+  <div class="month-sheet" id="monthSheet5" data-month="5">
+    <div class="month-header" style="background-image: url('images/spring.jpg');">
+      <div class="month-header-content">
+        <div class="month-num-title">
+          <span class="big-num">5월</span>
+          <span class="eng-sub">MAY 2027</span>
+        </div>
+        <div class="month-season-badge">늦봄 (정식의 달 & 최고 분주한 농번기)</div>
+      </div>
+    </div>
+    <div class="month-body">
+      <!-- Left: Calendar Grid + Core Tasks -->
+      <div>
+        <div class="cal-container">
+          <div class="cal-header-row">
+            <div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div>
+          </div>
+          <div class="cal-grid">
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">1</span>
+              </div>
+              <span class="day-tag">근로자의날</span>
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">2</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">3</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">4</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell holiday">
+              <div class="day-top">
+                <span class="day-num">5</span>
+              </div>
+              <span class="day-tag holiday-tag">어린이날</span>
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">6</span>
+              </div>
+              <span class="day-tag">입하</span>
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">7</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">8</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">9</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">10</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">11</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">12</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell holiday">
+              <div class="day-top">
+                <span class="day-num">13</span>
+              </div>
+              <span class="day-tag holiday-tag">부처님오신날</span>
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">14</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">15</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">16</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">17</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">18</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">19</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">20</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">21</span>
+              </div>
+              <span class="day-tag">소만</span>
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">22</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">23</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">24</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">25</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">26</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">27</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">28</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">29</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">30</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">31</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+          </div>
+        </div>
+
+        <!-- Core farming checklist -->
+        <div class="card-box core">
+          <div class="card-title core">
+            <span>🌾 이달의 핵심 농작업 & 경영 체크포인트</span>
+          </div>
+          <ul class="checklist">
+            <li>고추 본밭 정식(맑은 날 오전, 지주대 세우기 및 1차 끈 묶기)</li>
+            <li>고구마 순 정식 (이랑폭 80~90cm, 포기 25~30cm, 수평 삽식)</li>
+            <li>모내기(조생종·중생종 이앙) 및 초기 제초제 살포</li>
+            <li>생강, 강황, 들깨, 참깨 파종 및 지온 확보</li>
+            <li>과수 적과(열매솎기) 및 봉지 씌우기 준비</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Right: Regional Sowing + Exotic/Root crops -->
+      <div class="info-panel">
+        <div class="card-box region">
+          <div class="card-title region">
+            <span>🗺️ 전국 5대 권역별 파종 & 정식 작물표</span>
+          </div>
+          <table class="region-table">
+            <tr>
+              <th>북부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(강원·경기북부)</span></th>
+              <td>옥수수·콩 직파(상순), 오이·토마토 정식(중순), 고추 정식(하순)</td>
+            </tr>
+            <tr>
+              <th>중부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(수도권·충청)</span></th>
+              <td>고추·토마토·가지 정식(상순), 고구마 순 정식(중순), 들깨·생강(하순)</td>
+            </tr>
+            <tr>
+              <th>남부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(영·호남)</span></th>
+              <td>고구마 순·생강(상순), 모내기·들깨(중순), 참깨·팥(하순)</td>
+            </tr>
+            <tr>
+              <th>해안권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(서·남해안)</span></th>
+              <td>고추·토마토 정식(상순), 참깨·들깨 직파(하순)</td>
+            </tr>
+            <tr>
+              <th>제주권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(제주도 전역)</span></th>
+              <td>메밀 1기작 직파(중순), 참깨·단호박 정식</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="card-box exotic">
+          <div class="card-title exotic">
+            <span>🥔 외래 도입 채소 & 기능성 뿌리작물 FOCUS</span>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-root">뿌리</span>
+              <span class="exotic-name">고구마 (호박/베니하루카)</span>
+            </div>
+            <div class="exotic-desc">줄기 25~30cm 묘를 3~4마디 흙에 묻히게 비스듬히 삽식</div>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-root">뿌리</span>
+              <span class="exotic-name">강황(울금) / 생강</span>
+            </div>
+            <div class="exotic-desc">종강 5~7cm 절단, 깊이 5cm 복토, 볏짚 피복 필수</div>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-exotic">외래</span>
+              <span class="exotic-name">오크라 / 여주 / 바질</span>
+            </div>
+            <div class="exotic-desc">열대 아프리카 오크라, 동남아 여주, 이탈리아 바질 본밭 정식</div>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-root">뿌리</span>
+              <span class="exotic-name">야콘 (안데스 뿌리)</span>
+            </div>
+            <div class="exotic-desc">프락토올리고당 풍부, 5월 상중순 뇌두 정식</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Month 6 Sheet -->
+  <div class="month-sheet" id="monthSheet6" data-month="6">
+    <div class="month-header" style="background-image: url('images/summer.jpg');">
+      <div class="month-header-content">
+        <div class="month-num-title">
+          <span class="big-num">6월</span>
+          <span class="eng-sub">JUNE 2027</span>
+        </div>
+        <div class="month-season-badge">초여름 (모내기 마무리 & 보리·하지감자 수확)</div>
+      </div>
+    </div>
+    <div class="month-body">
+      <!-- Left: Calendar Grid + Core Tasks -->
+      <div>
+        <div class="cal-container">
+          <div class="cal-header-row">
+            <div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div>
+          </div>
+          <div class="cal-grid">
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">1</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">2</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">3</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">4</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">5</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday holiday">
+              <div class="day-top">
+                <span class="day-num">6</span>
+              </div>
+              <span class="day-tag holiday-tag">현충일/망종</span>
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">7</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">8</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">9</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">10</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">11</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">12</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">13</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">14</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">15</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">16</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">17</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">18</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">19</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">20</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">21</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">22</span>
+              </div>
+              <span class="day-tag">하지</span>
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">23</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">24</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">25</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">26</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">27</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">28</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">29</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">30</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+          </div>
+        </div>
+
+        <!-- Core farming checklist -->
+        <div class="card-box core">
+          <div class="card-title core">
+            <span>🌾 이달의 핵심 농작업 & 경영 체크포인트</span>
+          </div>
+          <ul class="checklist">
+            <li>만생종 벼 모내기 완료 및 논 물관리 (분얼기 얕게 대기)</li>
+            <li>보리, 밀, 마늘, 조생종 양파 수확 및 건조</li>
+            <li>하지감자 본격 수확 (맑은 날 캐서 통풍 좋은 그늘에서 큐어링)</li>
+            <li>보리 수확 후 그루터기 콩(이모작) 파종</li>
+            <li>장마철 대비 배수로 정비, 고추 탄저병·담배나방 1차 예방 방제</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Right: Regional Sowing + Exotic/Root crops -->
+      <div class="info-panel">
+        <div class="card-box region">
+          <div class="card-title region">
+            <span>🗺️ 전국 5대 권역별 파종 & 정식 작물표</span>
+          </div>
+          <table class="region-table">
+            <tr>
+              <th>북부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(강원·경기북부)</span></th>
+              <td>모내기(상순), 메밀 2기작(상순), 콩 만생종(중순)</td>
+            </tr>
+            <tr>
+              <th>중부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(수도권·충청)</span></th>
+              <td>모내기 완료(상순), 가을당근 준비(하순), 마늘 수확</td>
+            </tr>
+            <tr>
+              <th>남부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(영·호남)</span></th>
+              <td>모내기 마무리(상순), 보리 수확 후 콩 직파(중순), 양파 수확</td>
+            </tr>
+            <tr>
+              <th>해안권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(서·남해안)</span></th>
+              <td>마늘·양파 수확(상순), 콩 직파, 해풍 대비 지주시설 점검</td>
+            </tr>
+            <tr>
+              <th>제주권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(제주도 전역)</span></th>
+              <td>가을 양배추 육묘(상순), 메밀 수확 및 2기작 준비</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="card-box exotic">
+          <div class="card-title exotic">
+            <span>🥔 외래 도입 채소 & 기능성 뿌리작물 FOCUS</span>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-root">뿌리</span>
+              <span class="exotic-name">하지감자 수확 & 큐어링</span>
+            </div>
+            <div class="exotic-desc">수확 후 직사광선 차단, 10~15°C 암실에서 7일간 상처치유</div>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-root">뿌리</span>
+              <span class="exotic-name">마늘 / 양파 건조</span>
+            </div>
+            <div class="exotic-desc">수확 후 밭에서 2~3일 예비건조 후 망에 담아 통풍 건조</div>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-exotic">외래</span>
+              <span class="exotic-name">오크라 / 공심채 (모닝글로리)</span>
+            </div>
+            <div class="exotic-desc">초여름 급성장, 꼬투리 7~8cm 크기 때 연속 수확 시작</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Month 7 Sheet -->
+  <div class="month-sheet" id="monthSheet7" data-month="7">
+    <div class="month-header" style="background-image: url('images/summer.jpg');">
+      <div class="month-header-content">
+        <div class="month-num-title">
+          <span class="big-num">7월</span>
+          <span class="eng-sub">JULY 2027</span>
+        </div>
+        <div class="month-season-badge">한여름 (장마·폭염 대책 & 김장채소 준비)</div>
+      </div>
+    </div>
+    <div class="month-body">
+      <!-- Left: Calendar Grid + Core Tasks -->
+      <div>
+        <div class="cal-container">
+          <div class="cal-header-row">
+            <div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div>
+          </div>
+          <div class="cal-grid">
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">1</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">2</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">3</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">4</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">5</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">6</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">7</span>
+              </div>
+              <span class="day-tag">소서</span>
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">8</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">9</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">10</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">11</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">12</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">13</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">14</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">15</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">16</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">17</span>
+              </div>
+              <span class="day-tag">제헌절</span>
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">18</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">19</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">20</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">21</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">22</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">23</span>
+              </div>
+              <span class="day-tag">대서</span>
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">24</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">25</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">26</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">27</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">28</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">29</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">30</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">31</span>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+
+        <!-- Core farming checklist -->
+        <div class="card-box core">
+          <div class="card-title core">
+            <span>🌾 이달의 핵심 농작업 & 경영 체크포인트</span>
+          </div>
+          <ul class="checklist">
+            <li>장마철 침수 피해 방지 및 습해 받은 포장 엽면시비(요소 0.2%)</li>
+            <li>고온기 하우스 차광망(35~50%), 환기팬, 안개분무 가동</li>
+            <li>고추 역병·탄저병, 벼 도열병·잎집무늬마름병 집중 방제</li>
+            <li>김장 배추 육묘 트레이 준비 및 우량 상토 확보</li>
+            <li>가을 당근 직파 (발아기 수분 유지 및 한랭사 피복)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Right: Regional Sowing + Exotic/Root crops -->
+      <div class="info-panel">
+        <div class="card-box region">
+          <div class="card-title region">
+            <span>🗺️ 전국 5대 권역별 파종 & 정식 작물표</span>
+          </div>
+          <table class="region-table">
+            <tr>
+              <th>북부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(강원·경기북부)</span></th>
+              <td>김장 배추 육묘 파종(하순), 고랭지 무·배추 방제</td>
+            </tr>
+            <tr>
+              <th>중부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(수도권·충청)</span></th>
+              <td>김장 배추 육묘(하순), 가을 당근 직파(중하순)</td>
+            </tr>
+            <tr>
+              <th>남부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(영·호남)</span></th>
+              <td>김장 배추 육묘(하순), 갓·열무 직파(하순), 양파 육묘 준비</td>
+            </tr>
+            <tr>
+              <th>해안권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(서·남해안)</span></th>
+              <td>태풍 대비 방풍망 보강, 참깨 수확 준비</td>
+            </tr>
+            <tr>
+              <th>제주권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(제주도 전역)</span></th>
+              <td>가을 브로콜리 육묘(상순), 메밀 2기작 파종(하순)</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="card-box exotic">
+          <div class="card-title exotic">
+            <span>🥔 외래 도입 채소 & 기능성 뿌리작물 FOCUS</span>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-root">뿌리</span>
+              <span class="exotic-name">가을 당근 직파</span>
+            </div>
+            <div class="exotic-desc">7월 하순 파종, 볏짚이나 차광망 덮어 지온 낮추고 수분 유지</div>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-exotic">외래</span>
+              <span class="exotic-name">아열대 채소 수확 절정</span>
+            </div>
+            <div class="exotic-desc">여주(비터멜론), 오크라, 바질, 인디언시금치 왕성 수확</div>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-root">뿌리</span>
+              <span class="exotic-name">타로 / 야콘 중경 배토</span>
+            </div>
+            <div class="exotic-desc">북주기와 웃거름 시용으로 뿌리 괴경 비대 촉진</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Month 8 Sheet -->
+  <div class="month-sheet" id="monthSheet8" data-month="8">
+    <div class="month-header" style="background-image: url('images/summer.jpg');">
+      <div class="month-header-content">
+        <div class="month-num-title">
+          <span class="big-num">8월</span>
+          <span class="eng-sub">AUGUST 2027</span>
+        </div>
+        <div class="month-season-badge">늦여름 (결실의 계절 & 김장 채소 본파종)</div>
+      </div>
+    </div>
+    <div class="month-body">
+      <!-- Left: Calendar Grid + Core Tasks -->
+      <div>
+        <div class="cal-container">
+          <div class="cal-header-row">
+            <div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div>
+          </div>
+          <div class="cal-grid">
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">1</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">2</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">3</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">4</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">5</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">6</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">7</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">8</span>
+              </div>
+              <span class="day-tag">입추</span>
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">9</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">10</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">11</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">12</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">13</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">14</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday holiday">
+              <div class="day-top">
+                <span class="day-num">15</span>
+              </div>
+              <span class="day-tag holiday-tag">광복절</span>
+            </div>
+            <div class="cal-cell holiday">
+              <div class="day-top">
+                <span class="day-num">16</span>
+              </div>
+              <span class="day-tag holiday-tag">대체휴일</span>
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">17</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">18</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">19</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">20</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">21</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">22</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">23</span>
+              </div>
+              <span class="day-tag">처서</span>
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">24</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">25</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">26</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">27</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">28</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">29</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">30</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">31</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+          </div>
+        </div>
+
+        <!-- Core farming checklist -->
+        <div class="card-box core">
+          <div class="card-title core">
+            <span>🌾 이달의 핵심 농작업 & 경영 체크포인트</span>
+          </div>
+          <ul class="checklist">
+            <li>김장 배추 본밭 정식 (중부 8/20~25, 남부 8/25~31, 맑은 날 오후)</li>
+            <li>가을무 본밭 직파 (포기 사이 25~30cm, 1구 3~4립 파종)</li>
+            <li>양파 종자 육묘 파종 및 차광 관리 (8월 상순~중순)</li>
+            <li>홍고추 수확 및 세척·건조 (건조기 55~60°C 48시간)</li>
+            <li>참깨 수확 (맨 아래 꼬투리 1~2개 벌어질 때 베기)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Right: Regional Sowing + Exotic/Root crops -->
+      <div class="info-panel">
+        <div class="card-box region">
+          <div class="card-title region">
+            <span>🗺️ 전국 5대 권역별 파종 & 정식 작물표</span>
+          </div>
+          <table class="region-table">
+            <tr>
+              <th>북부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(강원·경기북부)</span></th>
+              <td>김장배추 정식(상순), 가을무(중순), 월동시금치(하순)</td>
+            </tr>
+            <tr>
+              <th>중부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(수도권·충청)</span></th>
+              <td>양파 육묘(상순), 가을무(중순), 김장배추 정식(8/20~25)</td>
+            </tr>
+            <tr>
+              <th>남부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(영·호남)</span></th>
+              <td>양파 육묘(상순), 갓·열무·쪽파(중순), 김장배추 정식(하순)</td>
+            </tr>
+            <tr>
+              <th>해안권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(서·남해안)</span></th>
+              <td>가을무 직파(하순), 마늘 파종밭 밑거름 시용</td>
+            </tr>
+            <tr>
+              <th>제주권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(제주도 전역)</span></th>
+              <td>마늘(대서종) 직파(중순), 양파 육묘(하순), 가을 감자 파종</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="card-box exotic">
+          <div class="card-title exotic">
+            <span>🥔 외래 도입 채소 & 기능성 뿌리작물 FOCUS</span>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-root">뿌리</span>
+              <span class="exotic-name">가을 비트 / 콜라비</span>
+            </div>
+            <div class="exotic-desc">8월 중하순 2기작 직파, 당도 높고 아삭한 뿌리채소 생산</div>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-root">뿌리</span>
+              <span class="exotic-name">양파 육묘 (조생·중만생)</span>
+            </div>
+            <div class="exotic-desc">파종 후 볏짚 피복, 맹물 관수로 발아율 90% 이상 확보</div>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-exotic">외래</span>
+              <span class="exotic-name">루콜라 / 치커리 2차 파종</span>
+            </div>
+            <div class="exotic-desc">처서 이후 선선해질 때 유럽 샐러드채소 파종 재개</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Month 9 Sheet -->
+  <div class="month-sheet" id="monthSheet9" data-month="9">
+    <div class="month-header" style="background-image: url('images/autumn.jpg');">
+      <div class="month-header-content">
+        <div class="month-num-title">
+          <span class="big-num">9월</span>
+          <span class="eng-sub">SEPTEMBER 2027</span>
+        </div>
+        <div class="month-season-badge">초가을 (추석 풍요 & 마늘 파종 준비)</div>
+      </div>
+    </div>
+    <div class="month-body">
+      <!-- Left: Calendar Grid + Core Tasks -->
+      <div>
+        <div class="cal-container">
+          <div class="cal-header-row">
+            <div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div>
+          </div>
+          <div class="cal-grid">
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">1</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">2</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">3</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">4</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">5</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">6</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">7</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">8</span>
+              </div>
+              <span class="day-tag">백로</span>
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">9</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">10</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">11</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">12</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">13</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell holiday">
+              <div class="day-top">
+                <span class="day-num">14</span>
+              </div>
+              <span class="day-tag holiday-tag">추석연휴</span>
+            </div>
+            <div class="cal-cell holiday">
+              <div class="day-top">
+                <span class="day-num">15</span>
+              </div>
+              <span class="day-tag holiday-tag">추석</span>
+            </div>
+            <div class="cal-cell holiday">
+              <div class="day-top">
+                <span class="day-num">16</span>
+              </div>
+              <span class="day-tag holiday-tag">추석연휴</span>
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">17</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">18</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">19</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">20</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">21</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">22</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">23</span>
+              </div>
+              <span class="day-tag">추분</span>
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">24</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">25</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">26</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">27</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">28</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">29</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">30</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+          </div>
+        </div>
+
+        <!-- Core farming checklist -->
+        <div class="card-box core">
+          <div class="card-title core">
+            <span>🌾 이달의 핵심 농작업 & 경영 체크포인트</span>
+          </div>
+          <ul class="checklist">
+            <li>조생종 벼 수확 및 추석용 햅쌀 건조·출하</li>
+            <li>김장배추 벼룩잎벌레, 배추좀나방 방제 및 1차 추비(정식 15일 후)</li>
+            <li>난지형 마늘(남도, 대서) 본밭 파종 (소독 후 유공비닐 피복)</li>
+            <li>조기 고구마 수확 및 당도 향상을 위한 숙성</li>
+            <li>사과, 배 등 추석 선물용 과수 착색 증진(반사필름 깔기)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Right: Regional Sowing + Exotic/Root crops -->
+      <div class="info-panel">
+        <div class="card-box region">
+          <div class="card-title region">
+            <span>🗺️ 전국 5대 권역별 파종 & 정식 작물표</span>
+          </div>
+          <table class="region-table">
+            <tr>
+              <th>북부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(강원·경기북부)</span></th>
+              <td>한지형 마늘 파종(상순), 보리·호밀 직파(중순)</td>
+            </tr>
+            <tr>
+              <th>중부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(수도권·충청)</span></th>
+              <td>쪽파·시금치(상순), 마늘 밭 장만 및 파종(하순)</td>
+            </tr>
+            <tr>
+              <th>남부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(영·호남)</span></th>
+              <td>가을무 마무리(상순), 쪽파(중순), 난지형 마늘 직파(하순)</td>
+            </tr>
+            <tr>
+              <th>해안권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(서·남해안)</span></th>
+              <td>남해 돌마늘 직파(중하순), 양파 묘상 관리</td>
+            </tr>
+            <tr>
+              <th>제주권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(제주도 전역)</span></th>
+              <td>가을무·배추 직파(상순), 비트·콜라비(중순), 조생감귤 출하</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="card-box exotic">
+          <div class="card-title exotic">
+            <span>🥔 외래 도입 채소 & 기능성 뿌리작물 FOCUS</span>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-root">뿌리</span>
+              <span class="exotic-name">마늘 (난지형 대서/남도)</span>
+            </div>
+            <div class="exotic-desc">씨마늘 소독액 1시간 침지 후 건조, 깊이 5cm로 파종</div>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-root">뿌리</span>
+              <span class="exotic-name">고구마 1차 수확</span>
+            </div>
+            <div class="exotic-desc">서리 전 맑은 날 수확, 껍질 상처 방지 위해 조심스럽게 채굴</div>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-exotic">외래</span>
+              <span class="exotic-name">유럽 샐러드 / 허브</span>
+            </div>
+            <div class="exotic-desc">가을 노지 최적기, 루콜라, 딜, 고수, 펜넬 생육 최고</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Month 10 Sheet -->
+  <div class="month-sheet" id="monthSheet10" data-month="10">
+    <div class="month-header" style="background-image: url('images/autumn.jpg');">
+      <div class="month-header-content">
+        <div class="month-num-title">
+          <span class="big-num">10월</span>
+          <span class="eng-sub">OCTOBER 2027</span>
+        </div>
+        <div class="month-season-badge">가을 (황금들녘 수확 & 월동작물 파종)</div>
+      </div>
+    </div>
+    <div class="month-body">
+      <!-- Left: Calendar Grid + Core Tasks -->
+      <div>
+        <div class="cal-container">
+          <div class="cal-header-row">
+            <div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div>
+          </div>
+          <div class="cal-grid">
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">1</span>
+              </div>
+              <span class="day-tag">국군의날</span>
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">2</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday holiday">
+              <div class="day-top">
+                <span class="day-num">3</span>
+              </div>
+              <span class="day-tag holiday-tag">개천절</span>
+            </div>
+            <div class="cal-cell holiday">
+              <div class="day-top">
+                <span class="day-num">4</span>
+              </div>
+              <span class="day-tag holiday-tag">대체휴일</span>
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">5</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">6</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">7</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">8</span>
+              </div>
+              <span class="day-tag">한로</span>
+            </div>
+            <div class="cal-cell saturday holiday">
+              <div class="day-top">
+                <span class="day-num">9</span>
+              </div>
+              <span class="day-tag holiday-tag">한글날</span>
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">10</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell holiday">
+              <div class="day-top">
+                <span class="day-num">11</span>
+              </div>
+              <span class="day-tag holiday-tag">대체휴일</span>
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">12</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">13</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">14</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">15</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">16</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">17</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">18</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">19</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">20</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">21</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">22</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">23</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">24</span>
+              </div>
+              <span class="day-tag">상강</span>
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">25</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">26</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">27</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">28</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">29</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">30</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">31</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+          </div>
+        </div>
+
+        <!-- Core farming checklist -->
+        <div class="card-box core">
+          <div class="card-title core">
+            <span>🌾 이달의 핵심 농작업 & 경영 체크포인트</span>
+          </div>
+          <ul class="checklist">
+            <li>중만생종 벼 본격 벼베기 및 공공비축미 수매 건조(수분 14~15%)</li>
+            <li>고구마, 콩, 팥, 땅콩 가을 수확 완료 (첫서리 오기 전)</li>
+            <li>고구마 아물이(큐어링: 30~33°C, 습도 90% 4~7일간 처리)</li>
+            <li>한지형 마늘 파종(10/1~15) 및 양파 묘 정식 (10월 하순~)</li>
+            <li>보리, 밀 맥류 파종 및 배수로 정비</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Right: Regional Sowing + Exotic/Root crops -->
+      <div class="info-panel">
+        <div class="card-box region">
+          <div class="card-title region">
+            <span>🗺️ 전국 5대 권역별 파종 & 정식 작물표</span>
+          </div>
+          <table class="region-table">
+            <tr>
+              <th>북부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(강원·경기북부)</span></th>
+              <td>월동 시금치 직파(상순, 멀칭 필수), 밭정리</td>
+            </tr>
+            <tr>
+              <th>중부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(수도권·충청)</span></th>
+              <td>한지형 마늘(상순), 양파 정식(하순), 보리·밀 직파(하순)</td>
+            </tr>
+            <tr>
+              <th>남부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(영·호남)</span></th>
+              <td>마늘 파종 완료(상순), 양파 정식(중하순), 보리 직파(하순)</td>
+            </tr>
+            <tr>
+              <th>해안권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(서·남해안)</span></th>
+              <td>양파 정식, 보리·밀 파종, 해안 무화과 수확 마무리</td>
+            </tr>
+            <tr>
+              <th>제주권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(제주도 전역)</span></th>
+              <td>양파 정식(상순), 보리 직파(전체), 노지감귤 본격 수확</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="card-box exotic">
+          <div class="card-title exotic">
+            <span>🥔 외래 도입 채소 & 기능성 뿌리작물 FOCUS</span>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-root">뿌리</span>
+              <span class="exotic-name">양파 정식 (유공비닐)</span>
+            </div>
+            <div class="exotic-desc">키 25cm, 줄기굵기 6mm 안팎의 충실한 묘를 2~3cm 깊이로 정식</div>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-root">뿌리</span>
+              <span class="exotic-name">돼지감자 / 야콘 수확 준비</span>
+            </div>
+            <div class="exotic-desc">지상부 잎이 마르기 시작하면 수확 채비 (서리 맞으면 당도 UP)</div>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-root">뿌리</span>
+              <span class="exotic-name">생강 수확 개시</span>
+            </div>
+            <div class="exotic-desc">서리 피해 받기 전 10월 하순~11월 초 전량 수확</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Month 11 Sheet -->
+  <div class="month-sheet" id="monthSheet11" data-month="11">
+    <div class="month-header" style="background-image: url('images/autumn.jpg');">
+      <div class="month-header-content">
+        <div class="month-num-title">
+          <span class="big-num">11월</span>
+          <span class="eng-sub">NOVEMBER 2027</span>
+        </div>
+        <div class="month-season-badge">늦가을 (풍성한 김장 & 월동 피복)</div>
+      </div>
+    </div>
+    <div class="month-body">
+      <!-- Left: Calendar Grid + Core Tasks -->
+      <div>
+        <div class="cal-container">
+          <div class="cal-header-row">
+            <div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div>
+          </div>
+          <div class="cal-grid">
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">1</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">2</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">3</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">4</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">5</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">6</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">7</span>
+              </div>
+              <span class="day-tag">입동</span>
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">8</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">9</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">10</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">11</span>
+              </div>
+              <span class="day-tag">농업인의 날 🌾</span>
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">12</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">13</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">14</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">15</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">16</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">17</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">18</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">19</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">20</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">21</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">22</span>
+              </div>
+              <span class="day-tag">소설</span>
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">23</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">24</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">25</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">26</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">27</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">28</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">29</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">30</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+          </div>
+        </div>
+
+        <!-- Core farming checklist -->
+        <div class="card-box core">
+          <div class="card-title core">
+            <span>🌾 이달의 핵심 농작업 & 경영 체크포인트</span>
+          </div>
+          <ul class="checklist">
+            <li>김장 배추·무 본격 수확 및 출하, 절임배추 가공 직거래</li>
+            <li>양파 정식 최종 마무리 (11월 10일 한)</li>
+            <li>마늘·양파 포장 보온 비닐 및 부직포/볏짚 피복 (동해 방지)</li>
+            <li>과수원 동해 예방 (원줄기 백색 페인트 도포 또는 짚 싸기)</li>
+            <li>생강, 강황, 야콘, 돼지감자 전량 수확 및 저장고 입고</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Right: Regional Sowing + Exotic/Root crops -->
+      <div class="info-panel">
+        <div class="card-box region">
+          <div class="card-title region">
+            <span>🗺️ 전국 5대 권역별 파종 & 정식 작물표</span>
+          </div>
+          <table class="region-table">
+            <tr>
+              <th>북부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(강원·경기북부)</span></th>
+              <td>토양 결빙 전 경운, 유기물 시용, 관수시설 퇴수</td>
+            </tr>
+            <tr>
+              <th>중부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(수도권·충청)</span></th>
+              <td>양파 정식 마무리(상순), 시설 상추 파종(중순), 김장</td>
+            </tr>
+            <tr>
+              <th>남부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(영·호남)</span></th>
+              <td>양파 정식 완료(상순), 월동 시금치·갓 직파(중순), 김장</td>
+            </tr>
+            <tr>
+              <th>해안권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(서·남해안)</span></th>
+              <td>월동 채소 생육 관리, 해풍 보온 대책</td>
+            </tr>
+            <tr>
+              <th>제주권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(제주도 전역)</span></th>
+              <td>월동무, 당근, 양배추 수확 시작, 노지감귤 수확 절정</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="card-box exotic">
+          <div class="card-title exotic">
+            <span>🥔 외래 도입 채소 & 기능성 뿌리작물 FOCUS</span>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-root">뿌리</span>
+              <span class="exotic-name">생강 / 강황(울금) 수확</span>
+            </div>
+            <div class="exotic-desc">서리 전 수확, 흙을 털고 13~15°C 고습도 저장고 보관</div>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-root">뿌리</span>
+              <span class="exotic-name">야콘 / 돼지감자 본격 채굴</span>
+            </div>
+            <div class="exotic-desc">서리 후 전분질이 당분으로 변해 최고 당도, 상처 없이 채굴</div>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-exotic">외래</span>
+              <span class="exotic-name">월동 시금치 / 갓 직파</span>
+            </div>
+            <div class="exotic-desc">남부권 봄 수확용 월동 엽채류 마지막 직파</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Month 12 Sheet -->
+  <div class="month-sheet" id="monthSheet12" data-month="12">
+    <div class="month-header" style="background-image: url('images/winter.jpg');">
+      <div class="month-header-content">
+        <div class="month-num-title">
+          <span class="big-num">12월</span>
+          <span class="eng-sub">DECEMBER 2027</span>
+        </div>
+        <div class="month-season-badge">겨울 (한 해 결산 & 새해 준비)</div>
+      </div>
+    </div>
+    <div class="month-body">
+      <!-- Left: Calendar Grid + Core Tasks -->
+      <div>
+        <div class="cal-container">
+          <div class="cal-header-row">
+            <div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div>
+          </div>
+          <div class="cal-grid">
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">1</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">2</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">3</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">4</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">5</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">6</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">7</span>
+              </div>
+              <span class="day-tag">대설</span>
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">8</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">9</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">10</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">11</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">12</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">13</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">14</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">15</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">16</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">17</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday">
+              <div class="day-top">
+                <span class="day-num">18</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">19</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">20</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">21</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">22</span>
+              </div>
+              <span class="day-tag">동지</span>
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">23</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">24</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell saturday holiday">
+              <div class="day-top">
+                <span class="day-num">25</span>
+              </div>
+              <span class="day-tag holiday-tag">성탄절</span>
+            </div>
+            <div class="cal-cell sunday">
+              <div class="day-top">
+                <span class="day-num">26</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">27</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">28</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">29</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">30</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell">
+              <div class="day-top">
+                <span class="day-num">31</span>
+              </div>
+              
+            </div>
+            <div class="cal-cell empty"></div>
+          </div>
+        </div>
+
+        <!-- Core farming checklist -->
+        <div class="card-box core">
+          <div class="card-title core">
+            <span>🌾 이달의 핵심 농작업 & 경영 체크포인트</span>
+          </div>
+          <ul class="checklist">
+            <li>2027 농업경영 결산(매출액, 종자·비료·농약비, 순수익 산출)</li>
+            <li>시설하우스 다겹보온커튼 관리 및 야간 최저온도 유지</li>
+            <li>폭설·한파 대비 하우스 보강 지주 설치 및 제설 장비 점검</li>
+            <li>저장 농산물(고구마 12~15°C, 감자 3~4°C, 사과 0°C) 온습도 점검</li>
+            <li>새해농업인 실용교육(1~2월) 교육과정 신청 및 정보 수집</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Right: Regional Sowing + Exotic/Root crops -->
+      <div class="info-panel">
+        <div class="card-box region">
+          <div class="card-title region">
+            <span>🗺️ 전국 5대 권역별 파종 & 정식 작물표</span>
+          </div>
+          <table class="region-table">
+            <tr>
+              <th>북부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(강원·경기북부)</span></th>
+              <td>동계 휴농, 시설하우스 딸기·엽채류 보온</td>
+            </tr>
+            <tr>
+              <th>중부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(수도권·충청)</span></th>
+              <td>시설 엽채류 수막 및 온풍난방 관리, 영농결산</td>
+            </tr>
+            <tr>
+              <th>남부권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(영·호남)</span></th>
+              <td>시설 촉성 채소(수박, 토마토, 고추) 수확 및 출하</td>
+            </tr>
+            <tr>
+              <th>해안권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(서·남해안)</span></th>
+              <td>해안 마늘·양파 피복 상태 점검, 갓 수확</td>
+            </tr>
+            <tr>
+              <th>제주권<br><span style="font-weight:normal; font-size:10px; color:#64748b;">(제주도 전역)</span></th>
+              <td>노지 월동무, 당근, 브로콜리 전국 출하, 만감류 관리</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="card-box exotic">
+          <div class="card-title exotic">
+            <span>🥔 외래 도입 채소 & 기능성 뿌리작물 FOCUS</span>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-root">뿌리</span>
+              <span class="exotic-name">고구마 저장 관리</span>
+            </div>
+            <div class="exotic-desc">12°C 이하 저온 노출 시 부패, 12~15°C 항온항습 엄격 유지</div>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-root">뿌리</span>
+              <span class="exotic-name">감자 저온 저장</span>
+            </div>
+            <div class="exotic-desc">3~4°C에서 환기 실시, 솔라닌 방지를 위한 암실 보관</div>
+          </div>
+          <div class="exotic-item">
+            <div class="exotic-header">
+              <span class="badge-tag badge-exotic">외래</span>
+              <span class="exotic-name">내년도 유망 외래종자 예약</span>
+            </div>
+            <div class="exotic-desc">파프리카, 퀴노아, 허브, 기능성 뿌리작물 종자 사전 발주</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Footer Card -->
+  <div class="footer-card no-print">
+    <h3 style="color: var(--primary-dark); font-size: 16px; margin-bottom: 8px;">🌱 성공적인 2027년 영농을 응원합니다!</h3>
+    <p>본 달력은 국립원예특작과학원 및 농촌진흥청 영농정보 기준을 바탕으로 한국 5대 권역 및 고소득 외래·뿌리작물을 종합하여 제작되었습니다.</p>
+    <p style="margin-top: 4px; font-size: 12px; color: #94a3b8;">※ 기후변화 및 국지적 이상기온에 따라 실제 파종일자는 1~2주 변동될 수 있으므로 지역 농업기술센터 상담을 병행하십시오.</p>
+    <div style="margin-top: 16px;">
+      <button class="btn btn-primary" onclick="window.print()">🖨️ 달력 전체 인쇄하기</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function filterMonth(m) {
+    const tabs = document.querySelectorAll('.tab-btn');
+    tabs.forEach((t, idx) => {
+      if (idx === m) t.classList.add('active');
+      else t.classList.remove('active');
+    });
+
+    const cover = document.getElementById('coverCard');
+    const sheets = document.querySelectorAll('.month-sheet');
+
+    if (m === 0) {
+      cover.style.display = 'block';
+      sheets.forEach(s => s.style.display = 'block');
+    } else {
+      cover.style.display = 'none';
+      sheets.forEach(s => {
+        if (parseInt(s.getAttribute('data-month')) === m) {
+          s.style.display = 'block';
+        } else {
+          s.style.display = 'none';
+        }
+      });
+    }
+  }
+
+  function showAllMonths() {
+    filterMonth(0);
+  }
+</script>
+
+</body>
+</html>
